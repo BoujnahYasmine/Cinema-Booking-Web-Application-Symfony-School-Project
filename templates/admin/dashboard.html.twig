@@ -1,0 +1,40 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block admin_body %}
+<div class="container">
+    <h1 class="section-title">Admin Dashboard</h1>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin: 2rem 0;">
+        <div class="card">
+            <div class="card-body" style="text-align: center;">
+                <h2 style="font-size: 3rem; color: var(--netflix-red);">{{ totalMovies }}</h2>
+                <p style="font-size: 1.25rem; color: var(--text-secondary);">Total Movies</p>
+                <a href="{{ path('admin_movies') }}" class="btn">Manage Movies</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body" style="text-align: center;">
+                <h2 style="font-size: 3rem; color: var(--netflix-red);">{{ totalBookings }}</h2>
+                <p style="font-size: 1.25rem; color: var(--text-secondary);">Total Bookings</p>
+                <a href="{{ path('admin_bookings') }}" class="btn">View Bookings</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body" style="text-align: center;">
+                <h2 style="font-size: 3rem; color: var(--netflix-red);">{{ unreadMessages }}</h2>
+                <p style="font-size: 1.25rem; color: var(--text-secondary);">Unread Messages</p>
+                <a href="{{ path('admin_messages') }}" class="btn">View Messages</a>
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 2rem;">
+        <a href="{{ path('admin_movie_new') }}" class="btn">Add New Movie</a>
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,59 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Manage Movies - Admin{% endblock %}
+
+{% block admin_body %}
+<div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h1 class="section-title" style="margin: 0;">Manage Movies</h1>
+        <a href="{{ path('admin_movie_new') }}" class="btn">Add New Movie</a>
+    </div>
+
+    {% if movies|length > 0 %}
+    <div class="table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Total Seats</th>
+                    <th>Trending</th>
+                    <th>Coming Soon</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for movie in movies %}
+                <tr>
+                    <td>
+                        {% if movie.image %}
+                        <img src="{{ asset(movie.image) }}" alt="{{ movie.name }}" style="width: 80px; height: 100px; object-fit: cover; border-radius: 5px;">
+                        {% else %}
+                        <span>No Image</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ movie.name }}</td>
+                    <td>{{ movie.totalSeats }}</td>
+                    <td>{{ movie.isTrending ? 'Yes' : 'No' }}</td>
+                    <td>{{ movie.isComingSoon ? 'Yes' : 'No' }}</td>
+                    <td>
+                        <a href="{{ path('admin_movie_showtimes', {id: movie.id}) }}" class="btn" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Showtimes</a>
+                        <a href="{{ path('admin_movie_edit', {id: movie.id}) }}" class="btn" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Edit</a>
+                        <form method="post" action="{{ path('admin_movie_delete', {id: movie.id}) }}" style="display: inline-block;" onsubmit="return confirm('Are you sure you want to delete this movie?');">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ movie.id) }}">
+                            <button type="submit" class="btn btn-danger" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div style="text-align: center; padding: 3rem;">
+        <p>No movies found. <a href="{{ path('admin_movie_new') }}">Add your first movie</a></p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+

@@ -1,0 +1,43 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Bookings - Admin{% endblock %}
+
+{% block admin_body %}
+<div class="container">
+    <h1 class="section-title">All Bookings</h1>
+
+    {% if bookings|length > 0 %}
+    <div class="table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Reference</th>
+                    <th>Customer</th>
+                    <th>Movie</th>
+                    <th>Date & Time</th>
+                    <th>Number of Seats</th>
+                    <th>Booking Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                <tr>
+                    <td><strong>{{ booking.reference }}</strong></td>
+                    <td>{{ booking.user.fullName }}<br><small>{{ booking.user.email }}</small></td>
+                    <td>{{ booking.showtime.movie.name }}</td>
+                    <td>{{ booking.showtime.date|date('F d, Y') }} at {{ booking.showtime.time|date('H:i') }}</td>
+                    <td>{{ booking.numberOfSeats }}</td>
+                    <td>{{ booking.createdAt|date('F d, Y H:i') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div style="text-align: center; padding: 3rem;">
+        <p>No bookings found.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+

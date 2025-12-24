@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            color: #141414;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        .ticket-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .ticket-header {
+            background: linear-gradient(135deg, #e50914 0%, #b20710 100%);
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+        }
+        .ticket-header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        .ticket-body {
+            padding: 30px 20px;
+        }
+        .ticket-section {
+            margin-bottom: 25px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .ticket-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .movie-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #141414;
+            margin-bottom: 20px;
+        }
+        .ticket-info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding: 10px 0;
+        }
+        .ticket-info-label {
+            font-weight: 600;
+            color: #666;
+            font-size: 14px;
+        }
+        .ticket-info-value {
+            color: #141414;
+            font-size: 14px;
+            text-align: right;
+        }
+        .reference-box {
+            background: #f8f9fa;
+            border: 2px dashed #e50914;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin: 25px 0;
+        }
+        .reference-code {
+            font-size: 32px;
+            font-weight: 700;
+            color: #e50914;
+            letter-spacing: 4px;
+            font-family: 'Courier New', monospace;
+        }
+        .reference-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+        .footer-note {
+            text-align: center;
+            color: #666;
+            font-size: 13px;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+        @media only screen and (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            .ticket-header h1 {
+                font-size: 24px;
+            }
+            .movie-title {
+                font-size: 20px;
+            }
+            .reference-code {
+                font-size: 24px;
+                letter-spacing: 2px;
+            }
+            .ticket-info-row {
+                flex-direction: column;
+            }
+            .ticket-info-value {
+                text-align: left;
+                margin-top: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="ticket-container">
+        <div class="ticket-header">
+            <h1>🎬 Your Cinema Ticket</h1>
+            <p style="opacity: 0.9; font-size: 14px;">Booking Confirmation</p>
+        </div>
+        
+        <div class="ticket-body">
+            <div class="ticket-section">
+                <div class="movie-title">{{ movie.name }}</div>
+            </div>
+
+            <div class="ticket-section">
+                <div class="ticket-info-row">
+                    <span class="ticket-info-label">📅 Show Date</span>
+                    <span class="ticket-info-value">{{ showtime.date|date('F d, Y') }}</span>
+                </div>
+                <div class="ticket-info-row">
+                    <span class="ticket-info-label">🕐 Show Time</span>
+                    <span class="ticket-info-value">{{ showtime.time|date('H:i') }}</span>
+                </div>
+                <div class="ticket-info-row">
+                    <span class="ticket-info-label">🎫 Number of Seats</span>
+                    <span class="ticket-info-value">{{ booking.numberOfSeats }} {{ booking.numberOfSeats == 1 ? 'Seat' : 'Seats' }}</span>
+                </div>
+            </div>
+
+            <div class="reference-box">
+                <div class="reference-label">Booking Reference</div>
+                <div class="reference-code">{{ booking.reference }}</div>
+            </div>
+
+            <div class="ticket-section">
+                <div class="ticket-info-row">
+                    <span class="ticket-info-label">👤 Customer Name</span>
+                    <span class="ticket-info-value">{{ user.fullName }}</span>
+                </div>
+                <div class="ticket-info-row">
+                    <span class="ticket-info-label">📧 Email</span>
+                    <span class="ticket-info-value">{{ user.email }}</span>
+                </div>
+            </div>
+
+            <div class="footer-note">
+                <p><strong>Important:</strong> Please arrive 15 minutes before the showtime.</p>
+                <p style="margin-top: 10px;">Present this ticket or your booking reference at the cinema.</p>
+                <p style="margin-top: 10px; color: #e50914;">Thank you for choosing our cinema! 🎬</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

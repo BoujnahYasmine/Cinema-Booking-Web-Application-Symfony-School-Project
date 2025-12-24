@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Movies - Customer Area{% endblock %}
+
+{% block body %}
+<div class="hero">
+    <div class="container">
+        <h1>Browse Movies</h1>
+        <p>Select a movie to book your tickets</p>
+    </div>
+</div>
+
+<div class="container">
+    {% if movies|length > 0 %}
+    <div class="movies-grid">
+        {% for movie in movies %}
+        <div class="card">
+            {% if movie.image %}
+            <img src="{{ asset(movie.image) }}" alt="{{ movie.name }}" class="card-img">
+            {% else %}
+            <img src="https://via.placeholder.com/300x400?text=No+Image" alt="{{ movie.name }}" class="card-img">
+            {% endif %}
+            <div class="card-body">
+                <h3 class="card-title">{{ movie.name }}</h3>
+                <p class="card-text">{{ movie.shortDescription ?: movie.description|slice(0, 100) ~ '...' }}</p>
+                <a href="{{ path('customer_movie_details', {id: movie.id}) }}" class="btn">View & Book</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div style="text-align: center; padding: 3rem;">
+        <p>No movies available at the moment.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+

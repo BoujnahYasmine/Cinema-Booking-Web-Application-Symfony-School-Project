@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ movie.name }} - Cinema Booking{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="movie-details">
+        <div>
+            {% if movie.image %}
+            <img src="{{ asset(movie.image) }}" alt="{{ movie.name }}" class="movie-details-img">
+            {% else %}
+            <img src="https://via.placeholder.com/300x400?text=No+Image" alt="{{ movie.name }}" class="movie-details-img">
+            {% endif %}
+        </div>
+        <div class="movie-info">
+            <h2>{{ movie.name }}</h2>
+            <p><strong>Total Seats:</strong> {{ movie.totalSeats }}</p>
+            <p>{{ movie.description }}</p>
+
+            <div class="showtimes-list">
+                <h3>Available Showtimes</h3>
+                {% if movie.showtimes|length > 0 %}
+                    {% for showtime in movie.showtimes %}
+                    <div class="showtime-item">
+                        <div>
+                            <strong>{{ showtime.date|date('F d, Y') }}</strong> at {{ showtime.time|date('H:i') }}
+                            <br>
+                            <small>Remaining Seats: {{ showtime.remainingSeats }}</small>
+                        </div>
+                        {% if is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('customer_book', {movieId: movie.id, showtimeId: showtime.id}) }}" class="btn">Book Now</a>
+                        {% else %}
+                        <a href="{{ path('login') }}" class="btn">Login to Book</a>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No showtimes available for this movie.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,53 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Showtimes for {{ movie.name }} - Admin{% endblock %}
+
+{% block admin_body %}
+<div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h1 class="section-title" style="margin: 0;">Showtimes for {{ movie.name }}</h1>
+        <a href="{{ path('admin_showtime_new', {id: movie.id}) }}" class="btn">Add Showtime</a>
+    </div>
+
+    <div style="margin-bottom: 2rem;">
+        <a href="{{ path('admin_movies') }}" class="btn btn-secondary">Back to Movies</a>
+    </div>
+
+    {% if movie.showtimes|length > 0 %}
+    <div class="table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Booked Seats</th>
+                    <th>Remaining Seats</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for showtime in movie.showtimes %}
+                <tr>
+                    <td>{{ showtime.date|date('F d, Y') }}</td>
+                    <td>{{ showtime.time|date('H:i') }}</td>
+                    <td>{{ showtime.bookedSeats }}</td>
+                    <td>{{ showtime.remainingSeats }}</td>
+                    <td>
+                        <form method="post" action="{{ path('admin_showtime_delete', {id: showtime.id}) }}" style="display: inline-block;" onsubmit="return confirm('Are you sure you want to delete this showtime?');">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ showtime.id) }}">
+                            <button type="submit" class="btn btn-danger" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div style="text-align: center; padding: 3rem;">
+        <p>No showtimes for this movie. <a href="{{ path('admin_showtime_new', {id: movie.id}) }}">Add a showtime</a></p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+

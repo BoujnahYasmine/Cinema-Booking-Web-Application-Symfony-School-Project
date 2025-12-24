@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}Cinema Booking System{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>🎬</text></svg>">
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset_mapper_path('styles/app.css') }}">
+        {% endblock %}
+
+        {% block javascripts %}
+            {% block importmap %}{{ importmap('app') }}{% endblock %}
+        {% endblock %}
+    </head>
+    <body>
+        <nav class="navbar">
+            <div class="container">
+                <a href="{{ path('home') }}" class="navbar-brand">
+                    <span style="font-size: 2rem;">🎬</span> Cinema
+                </a>
+                <ul class="navbar-nav">
+                    <li><a href="{{ path('home') }}">Home</a></li>
+                    <li><a href="{{ path('movies_list') }}">Movies</a></li>
+                    <li><a href="{{ path('contact') }}">Contact</a></li>
+                    {% if app.user %}
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <li><a href="{{ path('admin_dashboard') }}">Admin</a></li>
+                            <li><a href="{{ path('admin_messages') }}">Messages</a></li>
+                        {% endif %}
+                        <li><a href="{{ path('customer_movies') }}">My Area</a></li>
+                        <li><a href="{{ path('customer_tickets') }}">My Tickets</a></li>
+                        <li><a href="{{ path('logout') }}" style="color: #f5576c;">Logout</a></li>
+                    {% else %}
+                        <li><a href="{{ path('login') }}">Login</a></li>
+                        <li><a href="{{ path('register') }}" class="btn" style="padding: 0.5rem 1.5rem; font-size: 0.9rem;">Register</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">{{ message }}</div>
+            {% endfor %}
+            {% for message in app.flashes('error') %}
+                <div class="alert alert-error">{{ message }}</div>
+            {% endfor %}
+
+            {% block body %}{% endblock %}
+        </main>
+
+        <footer class="footer">
+            <div class="container">
+                <p>&copy; {{ 'now'|date('Y') }} Cinema Booking System. All rights reserved.</p>
+            </div>
+        </footer>
+    </body>
+</html>

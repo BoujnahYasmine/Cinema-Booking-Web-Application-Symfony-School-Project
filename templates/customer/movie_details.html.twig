@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ movie.name }} - Book Tickets{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="movie-details">
+        <div>
+            {% if movie.image %}
+            <img src="{{ asset(movie.image) }}" alt="{{ movie.name }}" class="movie-details-img">
+            {% else %}
+            <img src="https://via.placeholder.com/300x400?text=No+Image" alt="{{ movie.name }}" class="movie-details-img">
+            {% endif %}
+        </div>
+        <div class="movie-info">
+            <h2>{{ movie.name }}</h2>
+            <p><strong>Total Seats:</strong> {{ movie.totalSeats }}</p>
+            <p>{{ movie.description }}</p>
+
+            <div class="showtimes-list">
+                <h3>Available Showtimes</h3>
+                {% if movie.showtimes|length > 0 %}
+                    {% for showtime in movie.showtimes %}
+                    <div class="showtime-item">
+                        <div>
+                            <strong>{{ showtime.date|date('F d, Y') }}</strong> at {{ showtime.time|date('H:i') }}
+                            <br>
+                            <small>Remaining Seats: {{ showtime.remainingSeats }}</small>
+                        </div>
+                        {% if showtime.remainingSeats > 0 %}
+                        <a href="{{ path('customer_book', {movieId: movie.id, showtimeId: showtime.id}) }}" class="btn">Book Now</a>
+                        {% else %}
+                        <span style="color: #f5576c; font-weight: bold;">Fully Booked</span>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No showtimes available for this movie.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

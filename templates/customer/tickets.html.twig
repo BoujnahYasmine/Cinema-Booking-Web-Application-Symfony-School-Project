@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Tickets{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1 class="section-title">My Tickets</h1>
+
+    {% if bookings|length > 0 %}
+    <div style="display: grid; gap: 2rem;">
+        {% for booking in bookings %}
+        <div class="card">
+            <div class="card-body">
+                <div style="display: flex; justify-content: space-between; align-items: start; flex-wrap: wrap;">
+                    <div>
+                        <h3 style="margin-bottom: 0.5rem;">{{ booking.showtime.movie.name }}</h3>
+                        <p><strong>Reference:</strong> {{ booking.reference }}</p>
+                        <p><strong>Date:</strong> {{ booking.showtime.date|date('F d, Y') }}</p>
+                        <p><strong>Time:</strong> {{ booking.showtime.time|date('H:i') }}</p>
+                        <p><strong>Number of Seats:</strong> {{ booking.numberOfSeats }}</p>
+                        <p><strong>Booked on:</strong> {{ booking.createdAt|date('F d, Y H:i') }}</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="background: #f8f9fa; padding: 1rem; border-radius: 5px; margin-bottom: 1rem;">
+                            <strong style="font-size: 1.5rem;">{{ booking.reference }}</strong>
+                        </div>
+                        {% if booking.showtime.movie.image %}
+                        <img src="{{ asset(booking.showtime.movie.image) }}" alt="{{ booking.showtime.movie.name }}" style="width: 150px; height: 200px; object-fit: cover; border-radius: 5px;">
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div style="text-align: center; padding: 3rem;">
+        <p>You haven't booked any tickets yet.</p>
+        <a href="{{ path('customer_movies') }}" class="btn" style="margin-top: 1rem;">Browse Movies</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+

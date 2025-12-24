@@ -1,0 +1,64 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}{{ is_edit ? 'Edit' : 'New' }} Movie - Admin{% endblock %}
+
+{% block admin_body %}
+<div class="container">
+    <h1 class="section-title">{{ is_edit ? 'Edit Movie' : 'Add New Movie' }}</h1>
+
+    <div style="max-width: 800px; margin: 0 auto; background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+        {{ form_start(form) }}
+            <div class="form-group">
+                {{ form_label(form.name) }}
+                {{ form_widget(form.name) }}
+                {{ form_errors(form.name) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.shortDescription) }}
+                {{ form_widget(form.shortDescription) }}
+                {{ form_errors(form.shortDescription) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.description) }}
+                {{ form_widget(form.description) }}
+                {{ form_errors(form.description) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.totalSeats) }}
+                {{ form_widget(form.totalSeats) }}
+                {{ form_errors(form.totalSeats) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.imageFile) }}
+                {{ form_widget(form.imageFile) }}
+                {{ form_errors(form.imageFile) }}
+                {% if is_edit and movie.image %}
+                <small style="display: block; margin-top: 0.5rem;">
+                    Current image: <img src="{{ asset(movie.image) }}" alt="Current" style="width: 100px; height: 120px; object-fit: cover; border-radius: 5px;">
+                </small>
+                {% endif %}
+            </div>
+
+            <div class="form-check">
+                {{ form_widget(form.isTrending) }}
+                {{ form_label(form.isTrending) }}
+            </div>
+
+            <div class="form-check">
+                {{ form_widget(form.isComingSoon) }}
+                {{ form_label(form.isComingSoon) }}
+            </div>
+
+            <div style="margin-top: 2rem;">
+                <button type="submit" class="btn">{{ is_edit ? 'Update' : 'Create' }} Movie</button>
+                <a href="{{ path('admin_movies') }}" class="btn btn-secondary" style="margin-left: 1rem;">Cancel</a>
+            </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}
+

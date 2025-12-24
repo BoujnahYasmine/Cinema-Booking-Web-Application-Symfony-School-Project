@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="admin-layout">
+    <aside class="admin-sidebar">
+        <div class="sidebar-header">
+            <h2>🎬 Admin Panel</h2>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="{{ path('admin_dashboard') }}" class="nav-item {{ app.request.get('_route') == 'admin_dashboard' ? 'active' : '' }}">
+                <span>📊</span> Dashboard
+            </a>
+            <a href="{{ path('admin_movies') }}" class="nav-item {{ app.request.get('_route') starts with 'admin_movie' ? 'active' : '' }}">
+                <span>🎥</span> Movies
+            </a>
+            <a href="{{ path('admin_bookings') }}" class="nav-item {{ app.request.get('_route') == 'admin_bookings' ? 'active' : '' }}">
+                <span>🎫</span> Bookings
+            </a>
+            <a href="{{ path('admin_messages') }}" class="nav-item {{ app.request.get('_route') == 'admin_messages' ? 'active' : '' }}">
+                <span>💬</span> Messages
+                {% if unreadMessagesCount is defined and unreadMessagesCount > 0 %}
+                <span class="badge">{{ unreadMessagesCount }}</span>
+                {% endif %}
+            </a>
+            <a href="{{ path('home') }}" class="nav-item">
+                <span>🏠</span> Back to Site
+            </a>
+            <a href="{{ path('logout') }}" class="nav-item logout">
+                <span>🚪</span> Logout
+            </a>
+        </nav>
+    </aside>
+    
+    <main class="admin-main">
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-error">{{ message }}</div>
+        {% endfor %}
+        
+        {% block admin_body %}{% endblock %}
+    </main>
+</div>
+{% endblock %}
+
