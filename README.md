@@ -80,7 +80,7 @@ A complete Symfony-based cinema booking system with three distinct spaces: Publi
 
 5. **Run migrations**
    ```bash
-   php bin/console doctrine:migrations:migrate
+   
    ```
 
 6. **Create admin user**
